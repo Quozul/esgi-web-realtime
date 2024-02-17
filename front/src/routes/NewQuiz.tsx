@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import useSocket from "../hooks/useSocket.ts";
+import { useSocket } from "../hooks/SocketProvider.tsx";
 
 export default function NewQuiz() {
   const socket = useSocket();

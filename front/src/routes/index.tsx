@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import NewQuiz from "./NewQuiz.tsx";
-import QuizList from "./QuizList.tsx";
-import Quiz from "./Quiz.tsx";
+import RoomList from "./RoomList.tsx";
+import Room from "./Room.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -13,11 +13,11 @@ export const router = createBrowserRouter([
     element: <NewQuiz />,
   },
   {
-    path: "/quiz/:id",
-    element: <Quiz />,
+    path: "/room/:id",
+    element: <Room />,
   },
   {
-    path: "/quiz",
-    element: <QuizList />,
+    path: "/room",
+    element: <RoomList />,
   },
 ]);
