@@ -17,7 +17,7 @@ function updateRoomInfo(id) {
 
   const elapsed = Date.now() - room.start;
   const playerCount = room.players.size;
-  const data = { elapsed, playerCount };
+  const data = { elapsed, playerCount, quiz: room.quiz};
   for (const player of room.players) {
     player.emit("roomInfo", data);
   }
@@ -52,7 +52,7 @@ io.on("connection", (socket) => {
     if (!rooms[id]) {
       rooms[id] = {
         players: new Set(),
-        quiz: null,
+        quiz: Object.values(quizzes)[0],
         start: Date.now(),
       };
     }
@@ -83,6 +83,10 @@ io.on("connection", (socket) => {
     }
 
     removePlayerFromRoom(playerRoomId, socket);
+  });
+
+  socket.on("submitAnswers", (data) => {
+    console.log(data);
   });
 });
 
