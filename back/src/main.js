@@ -1,11 +1,22 @@
-const express = require("express");
-const app = express();
-const port = 3000;
+import { Server } from "socket.io";
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+const io = new Server({
+  cors: {
+    origin: "http://localhost:5173",
+  },
 });
 
-app.listen(port, "0.0.0.0", () => {
-  console.log(`Example app listening on port ${port}`);
+const quizzes = {};
+
+io.on("connection", (socket) => {
+  socket.on("createForm", (data) => {
+    const quizId = crypto.randomUUID();
+    quizzes[quizId] = data;
+  });
+
+  console.log(quizzes);
+
+  socket.emit("quizList", quizzes);
 });
+
+io.listen(3000);
