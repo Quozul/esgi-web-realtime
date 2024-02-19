@@ -27,7 +27,7 @@ export default function RoomList() {
     <main>
       <div className="flex justify-center md:py-10 md:flex-row flex-col items-center gap-8">
         <div className="flex flex-col gap-8 max-w-xl">
-          <h1 className="text-5xl font-bold text-gray-800">
+          <h1 className="text-5xl font-bold text-teal-700">
             Improve your mind
           </h1>
           <p className="bg-teal-700 text-teal-100 p-6 rounded-b-lg rounded-tr-lg shadow">
@@ -46,7 +46,7 @@ export default function RoomList() {
         </div>
       </div>
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-gray-800">Salles</h2>
+        <h2 className="text-2xl font-bold text-teal-700">Salles</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {rooms.length === 0 ? (
             <div className="col-span-1 sm:col-span-2 lg:col-span-3 bg-white shadow rounded-lg p-4 text-center">
@@ -54,7 +54,7 @@ export default function RoomList() {
             </div>
           ) : (
             rooms.map((id) => (
-              <div key={id} className="bg-white shadow rounded-lg p-4 hover:bg-gray-50">
+              <div key={id} className="bg-white shadow rounded-lg p-4 hover:bg-custom-tertiary">
                 <Link to={`/room/${id}`} className="text-teal-700 hover:text-teal-900">
                   {id}
                 </Link>
@@ -75,7 +75,7 @@ export default function RoomList() {
       </div>
 
       <div className="mt-8">
-        <h2 className="text-2xl font-bold text-gray-800">Quizzes</h2>
+        <h2 className="text-2xl font-bold text-teal-700">Quizzes</h2>
         <Link to="/create-quiz"
               className="inline-block bg-teal-700 text-teal-100 p-4 rounded-lg shadow hover:bg-teal-800 transition duration-150 ease-in-out mt-4">
           Créer un quiz

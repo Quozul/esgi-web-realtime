@@ -6,7 +6,7 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   return (
-    <nav className="flex flex-row-reverse md:flex-row items-center justify-between py-4 mb-4 max-w-6xl mx-auto px-4 w-full">
+    <nav className="flex flex-row-reverse md:flex-row items-center justify-between mb-4 mx-auto p-4 md:px-0 w-full container">
       <a href="/" className="text-3xl font-bold z-10 hidden md:block">
         Quizz
       </a>
@@ -32,7 +32,7 @@ export const Navbar = () => {
             </a>
           </li>
         </ul>
-        <a href="/" className="hidden border rounded-full border-[#21888e] px-4 py-2 hover:bg-[#21888e] hover:text-[#fff6ec] transition-colors md:flex items-center gap-2">
+        <a href="/" className="hidden border rounded-full border-custom-secondary px-4 py-2 hover:bg-custom-secondary hover:text-custom-tertiary transition-colors md:flex items-center gap-2">
           <FaGithub />
           GitHub
         </a>
