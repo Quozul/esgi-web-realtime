@@ -6,7 +6,7 @@ import Room from "./Room.tsx";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <RoomList />,
   },
   {
     path: "/create-quiz",
@@ -15,9 +15,5 @@ export const router = createBrowserRouter([
   {
     path: "/room/:id",
     element: <Room />,
-  },
-  {
-    path: "/room",
-    element: <RoomList />,
-  },
+  }
 ]);

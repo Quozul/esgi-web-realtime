@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body {
+  background-color: #c1f1f4;
+  color: #21888e;
+}
+
+.menu-enter {
+  transition: transform 0.5s ease;
+  transform: translateX(100%);
+}
+.menu-enter-active {
+  transform: translateX(0%);
+}
+.menu-exit {
+  transition: transform 0.5s ease;
+  transform: translateX(0%);
+}
+.menu-exit-active {
+  transform: translateX(100%);
+}
