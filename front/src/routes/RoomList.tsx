@@ -25,7 +25,7 @@ export default function RoomList() {
 
   return (
     <main>
-      <div className="flex justify-center md:py-10 md:flex-row flex-col items-center gap-8">
+      <div className="flex justify-between md:py-10 md:flex-row flex-col items-center gap-8">
         <div className="flex flex-col gap-8 max-w-xl">
           <h1 className="text-5xl font-bold text-teal-700">
             Improve your mind
@@ -35,7 +35,7 @@ export default function RoomList() {
             avec vos amis.
           </p>
         </div>
-        <div style={{height: "300px", width: "100%"}}>
+        <div style={{height: "300px", width: "auto"}}>
           <Canvas>
             <ambientLight intensity={1}/>
             <directionalLight position={[0, 10, 5]} intensity={1}/>
