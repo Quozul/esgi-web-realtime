@@ -28,7 +28,7 @@ export default function RoomList() {
       <div className="flex justify-between md:py-10 md:flex-row flex-col items-center gap-8">
         <div className="flex flex-col gap-8 max-w-xl">
           <h1 className="text-5xl font-bold text-teal-700">
-            Improve your mind
+            Le quiz de vos soirées
           </h1>
           <p className="bg-teal-700 text-teal-100 p-6 rounded-b-lg rounded-tr-lg shadow">
             Créez une salle ou rejoignez-en une pour jouer avec vos amis. Vous pouvez aussi créer un quiz pour jouer
