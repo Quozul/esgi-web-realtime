@@ -86,7 +86,7 @@ export default function Room() {
             {data.quiz.answers.map((answer, i) => (
               <li key={i} className="mb-2 flex-1">
                 <div
-                  className={`p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ${checkedAnswers.includes(answer.content) ? 'bg-teal-700 text-white' : 'bg-white border-teal-700'} hover:scale-105`}
+                  className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ${checkedAnswers.includes(answer.content) ? 'bg-teal-700 text-white' : 'bg-white border-teal-700'} hover:scale-105`}
                   onClick={() => {
                     const isSelected = checkedAnswers.includes(answer.content);
                     setCheckedAnswers((prevState) =>
