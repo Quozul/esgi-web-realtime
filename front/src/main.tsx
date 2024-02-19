@@ -6,6 +6,7 @@ import { SocketProvider } from "./hooks/SocketProvider.tsx";
 import "./style.css";
 import {Navbar} from "./components/Navbar.tsx";
 import {Footer} from "./components/Footer.tsx";
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

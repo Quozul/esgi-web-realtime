@@ -1,7 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useSocket } from "../hooks/SocketProvider.tsx";
 import { toast, ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
 
 export interface Answer {
   content: string,
@@ -30,6 +29,12 @@ export default function NewQuiz() {
       return;
     }
 
+    const hasValidAnswer = answers.some(answer => answer.isValid);
+    if (!hasValidAnswer) {
+      toast.error("Il faut au moins une réponse correcte pour créer un quiz");
+      return;
+    }
+
     socket.emit("createForm", {
       question,
       answers
@@ -37,6 +42,8 @@ export default function NewQuiz() {
 
     setQuestion("");
     setAnswers([]);
+
+    toast.success("Le quiz a été créé avec succès !");
   };
 
   return (
@@ -65,47 +72,27 @@ export default function NewQuiz() {
         {answers.map((answer, i) => (
           <div key={i} className="flex items-center gap-4">
             <input
-              id={`valid-answer-${i}`}
-              type="checkbox"
-              checked={answer.isValid}
+              type="text"
+              required={true}
+              value={answer.content}
+              placeholder={"Réponse " + (i + 1)}
+              aria-label={"Réponse " + (i + 1)}
               onChange={(event) => {
-                setAnswers((prevState) => {
-                  return prevState.map((prevAnswer, j) => {
-                    if (j === i) {
-                      return {
-                        ...prevAnswer,
-                        isValid: event.target.checked
-                      }
-                    }
-                    return prevAnswer
-                  })
-                })
+                setAnswers((prevState) => prevState.map((prevAnswer, j) => j === i ? { ...prevAnswer, content: event.target.value } : prevAnswer))
               }}
-              className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+              className="flex-1 p-4 bg-white border-2 border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-            <label htmlFor={`valid-answer-${i}`} className="flex-1 flex items-center gap-2">
-              <span>Réponse valide :</span>
+            <label className="flex items-center gap-2">
               <input
-                type="text"
-                required={true}
-                value={answer.content}
+                type="checkbox"
+                checked={answer.isValid}
+                aria-label={"Cette réponse est correcte"}
                 onChange={(event) => {
-                  setAnswers((prevState) => {
-                    return prevState.map((prevAnswer, j) => {
-                      if (j === i) {
-                        return {
-                          ...prevAnswer,
-                          content: event.target.value
-                        }
-                      }
-                      return prevAnswer
-                    })
-                  })
+                  setAnswers((prevState) => prevState.map((prevAnswer, j) => j === i ? { ...prevAnswer, isValid: event.target.checked } : prevAnswer))
                 }}
-                placeholder={"Réponse " + (i + 1)}
-                aria-label={"Réponse " + (i + 1)}
-                className="flex-1 p-4 bg-white border-2 border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
               />
+              <span>Cette réponse est correcte</span>
             </label>
             <button
               type="button"
