@@ -19,17 +19,17 @@ export const Navbar = () => {
         <ul className={`hidden md:flex flex-row gap-4 justify-center flex-1`}>
           <li>
             <Link to="/" className={currentPath === "/" ? "font-bold" : ""}>
-              Home
+              Accueil
             </Link>
           </li>
           <li>
             <Link to="/room-list" className={currentPath === "/room-list" ? "font-bold" : ""}>
-              Room list
+              Liste des salles
             </Link>
           </li>
           <li>
             <Link to="/create-quiz" className={currentPath === "/create-quiz" ? "font-bold" : ""}>
-              Create quiz
+              Créer un quiz
             </Link>
           </li>
         </ul>
