@@ -2,18 +2,26 @@ import { createBrowserRouter } from "react-router-dom";
 import NewQuiz from "./NewQuiz.tsx";
 import RoomList from "./RoomList.tsx";
 import Room from "./Room.tsx";
+import NotFound from "./NotFound.tsx";
+import Layout from "../Layout.tsx";
+
+const wrapInLayout = (PageComponent: React.ComponentType) => <Layout><PageComponent /></Layout>;
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <RoomList />,
+    element: wrapInLayout(RoomList),
   },
   {
     path: "/create-quiz",
-    element: <NewQuiz />,
+    element: wrapInLayout(NewQuiz),
   },
   {
     path: "/room/:id",
-    element: <Room />,
+    element: wrapInLayout(Room),
+  },
+  {
+    path: "*",
+    element: wrapInLayout(NotFound),
   }
 ]);
