@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaGithub, FaBars } from 'react-icons/fa6'; // Vérifiez le bon chemin d'import pour les icônes
+import { FaGithub, FaBars } from 'react-icons/fa6';
 
 export const Navbar = () => {
   const currentPath = window.location.pathname;
