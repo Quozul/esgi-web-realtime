@@ -45,8 +45,7 @@ io.on("connection", (socket) => {
     quizzes[quizId] = data;
   });
 
-  const roomList = Object.keys(rooms);
-  socket.emit("roomList", roomList);
+  socket.emit("roomList", Object.keys(rooms));
 
   socket.on("joinRoom", ({ id }) => {
     if (!rooms[id]) {
