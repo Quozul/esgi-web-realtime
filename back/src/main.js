@@ -17,7 +17,7 @@ function updateRoomInfo(id) {
 
   const elapsed = Date.now() - room.start;
   const playerCount = room.players.size;
-  const data = { elapsed, playerCount, quiz: room.quiz};
+  const data = { elapsed, playerCount, quiz: room.quiz };
   for (const player of room.players) {
     player.emit("roomInfo", data);
   }
@@ -85,7 +85,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("submitAnswers", (data) => {
-    console.log(data);
+    const room = rooms[data.id];
+
+    if (!room) return;
+    const correctAnswers = room.quiz.answers
+      .filter(({ isValid }) => isValid)
+      .map(({ content }) => content);
+
+    const isValid =
+      data.answers.length === correctAnswers.length &&
+      data.answers.every((element, index) => element === correctAnswers[index]);
+
+    socket.emit("feedback", { isValid, answers: correctAnswers });
   });
 });
 
