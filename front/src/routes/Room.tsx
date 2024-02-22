@@ -110,19 +110,30 @@ export default function Room() {
           <form onSubmit={(event) => handleSubmit(event, data.quiz.question)}>
             <ul className="list-none pl-0 flex flex-col md:flex-row md:gap-8 gap-4 flex-wrap">
               {data.quiz.answers.map((answer, i) => (
-                <li key={i} className="mb-2 flex-1">
+                <li
+                  key={i}
+                  className={`mb-2 flex-1`}
+                >
                   <div
-                    className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ${checkedAnswers.includes(answer.content) ? "bg-teal-700 text-white" : "bg-white border-teal-700"} hover:scale-105`}
+                    className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ${
+                      questionStates[data.quiz.question]?.isSubmitted &&
+                      answer.isValid
+                        ? "bg-teal-700 text-white animate-bounce"
+                        : questionStates[data.quiz.question]?.isSubmitted &&
+                        !answer.isValid &&
+                        !checkedAnswers.includes(answer.content)
+                          ? "bg-red-700 text-white"
+                          : checkedAnswers.includes(answer.content)
+                            ? "bg-teal-700 text-white"
+                            : "bg-white border-teal-700"
+                    } hover:scale-105`}
                     onClick={() => {
-                      const isSelected = checkedAnswers.includes(
-                        answer.content,
-                      );
+                      if (questionStates[data.quiz.question]?.isSubmitted) return; // Empêche tout changement si déjà soumis
+                      const isSelected = checkedAnswers.includes(answer.content);
                       setCheckedAnswers((prevState) =>
                         isSelected
-                          ? prevState.filter(
-                            (prevAnswer) => prevAnswer !== answer.content,
-                          )
-                          : [...prevState, answer.content],
+                          ? prevState.filter((prevAnswer) => prevAnswer !== answer.content)
+                          : [...prevState, answer.content]
                       );
                     }}
                   >
