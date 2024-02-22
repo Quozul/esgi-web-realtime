@@ -28,6 +28,7 @@ export default function Room() {
     },
   });
   const [checkedAnswers, setCheckedAnswers] = useState<string[]>([]);
+  const [questionStates, setQuestionStates] = useState<{ [key: string]: { isSubmitted: boolean } }>({});
 
   useEffect(() => {
     socket.emit("joinRoom", { id });
@@ -54,7 +55,7 @@ export default function Room() {
     };
   }, [socket, id]);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = (event: FormEvent, questionId: string) => {
     event.preventDefault();
 
     if (checkedAnswers.length === 0) {
@@ -66,6 +67,11 @@ export default function Room() {
       id,
       answers: checkedAnswers,
     });
+
+    setQuestionStates(prev => ({
+      ...prev,
+      [questionId]: { ...prev[questionId], isSubmitted: true }
+    }));
 
     setCheckedAnswers([]);
   };
@@ -101,7 +107,7 @@ export default function Room() {
           <h2 className="text-2xl font-semibold mb-6">
             Question : {data.quiz.question ?? "Soyez prêt..."}
           </h2>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={(event) => handleSubmit(event, data.quiz.question)}>
             <ul className="list-none pl-0 flex flex-col md:flex-row md:gap-8 gap-4 flex-wrap">
               {data.quiz.answers.map((answer, i) => (
                 <li key={i} className="mb-2 flex-1">
@@ -114,8 +120,8 @@ export default function Room() {
                       setCheckedAnswers((prevState) =>
                         isSelected
                           ? prevState.filter(
-                              (prevAnswer) => prevAnswer !== answer.content,
-                            )
+                            (prevAnswer) => prevAnswer !== answer.content,
+                          )
                           : [...prevState, answer.content],
                       );
                     }}
@@ -137,9 +143,10 @@ export default function Room() {
             </ul>
             <button
               type="submit"
-              className="py-2 px-4 bg-teal-700 text-white rounded-lg shadow hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
+              disabled={questionStates[data.quiz.question]?.isSubmitted}
+              className={`py-2 px-4 ${questionStates[data.quiz.question]?.isSubmitted ? "bg-gray-500" : "bg-teal-700"} text-white rounded-lg shadow hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors w-full mt-4`}
             >
-              Envoyer
+              {questionStates[data.quiz.question]?.isSubmitted ? "La prochaine question arrive" : "Envoyer"}
             </button>
           </form>
         </>
