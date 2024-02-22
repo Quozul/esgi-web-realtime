@@ -13,7 +13,6 @@ export default function RoomList() {
   useEffect(() => {
     const listener = (data: string[]) => {
       setRooms(data);
-      console.log(data);
     };
 
     socket.on("roomList", listener);
