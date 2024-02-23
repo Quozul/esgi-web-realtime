@@ -23,11 +23,6 @@ export const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/room-list" className={currentPath === "/room-list" ? "font-bold" : ""}>
-              Liste des salles
-            </Link>
-          </li>
-          <li>
             <Link to="/create-quiz" className={currentPath === "/create-quiz" ? "font-bold" : ""}>
               Créer un quiz
             </Link>
@@ -45,11 +40,6 @@ export const Navbar = () => {
             <li>
               <Link to="/" className={currentPath === "/" ? "font-bold" : ""}>
                 Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/room-list" className={currentPath === "/room-list" ? "font-bold" : ""}>
-                Room list
               </Link>
             </li>
             <li>
