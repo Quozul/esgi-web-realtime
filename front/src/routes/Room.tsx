@@ -3,6 +3,7 @@ import { useSocket } from "../hooks/SocketProvider.tsx";
 import { FormEvent, useEffect, useState } from "react";
 import { Answer } from "./NewQuiz.tsx";
 import { toast, ToastContainer } from "react-toastify";
+import clsx from "clsx";
 
 type RoomData = {
   elapsed: number;
@@ -28,7 +29,9 @@ export default function Room() {
     },
   });
   const [checkedAnswers, setCheckedAnswers] = useState<string[]>([]);
-  const [questionStates, setQuestionStates] = useState<{ [key: string]: { isSubmitted: boolean } }>({});
+  const [questionStates, setQuestionStates] = useState<{
+    [key: string]: { isSubmitted: boolean };
+  }>({});
 
   useEffect(() => {
     socket.emit("joinRoom", { id });
@@ -68,9 +71,9 @@ export default function Room() {
       answers: checkedAnswers,
     });
 
-    setQuestionStates(prev => ({
+    setQuestionStates((prev) => ({
       ...prev,
-      [questionId]: { ...prev[questionId], isSubmitted: true }
+      [questionId]: { ...prev[questionId], isSubmitted: true },
     }));
 
     setCheckedAnswers([]);
@@ -92,7 +95,7 @@ export default function Room() {
                 <span key={i} className="w-4 h-4 text-xl">
                   🦸
                 </span>
-              ),
+              )
             )}
             {data.playerCount > 5 && (
               <span className="text-teal-700 font-semibold">
@@ -109,55 +112,68 @@ export default function Room() {
           </h2>
           <form onSubmit={(event) => handleSubmit(event, data.quiz.question)}>
             <ul className="list-none pl-0 flex flex-col md:flex-row md:gap-8 gap-4 flex-wrap">
-              {data.quiz.answers.map((answer, i) => (
-                <li
-                  key={i}
-                  className={`mb-2 flex-1`}
-                >
-                  <div
-                    className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ${
+              {data.quiz.answers.map((answer, i) => {
+                const className = clsx(
+                  "flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:scale-105",
+                  {
+                    "bg-teal-700 text-white animate-bounce":
                       questionStates[data.quiz.question]?.isSubmitted &&
-                      answer.isValid
-                        ? "bg-teal-700 text-white animate-bounce"
-                        : questionStates[data.quiz.question]?.isSubmitted &&
-                        !answer.isValid &&
-                        !checkedAnswers.includes(answer.content)
-                          ? "bg-red-700 text-white"
-                          : checkedAnswers.includes(answer.content)
-                            ? "bg-teal-700 text-white"
-                            : "bg-white border-teal-700"
-                    } hover:scale-105`}
-                    onClick={() => {
-                      if (questionStates[data.quiz.question]?.isSubmitted) return; // Empêche tout changement si déjà soumis
-                      const isSelected = checkedAnswers.includes(answer.content);
-                      setCheckedAnswers((prevState) =>
-                        isSelected
-                          ? prevState.filter((prevAnswer) => prevAnswer !== answer.content)
-                          : [...prevState, answer.content]
-                      );
-                    }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        readOnly
-                        checked={checkedAnswers.includes(answer.content)}
-                        onClick={(event) => event.stopPropagation()}
-                        className="opacity-0 absolute"
-                        aria-hidden="true"
-                      />
-                      {answer.content}
+                      answer.isValid,
+                    "bg-red-700 text-white":
+                      questionStates[data.quiz.question]?.isSubmitted &&
+                      !answer.isValid &&
+                      !checkedAnswers.includes(answer.content),
+                    "bg-teal-700 text-white":
+                      checkedAnswers.includes(answer.content) &&
+                      !questionStates[data.quiz.question]?.isSubmitted,
+                    "bg-white border-teal-700":
+                      !checkedAnswers.includes(answer.content) &&
+                      !questionStates[data.quiz.question]?.isSubmitted,
+                  }
+                );
+
+                return (
+                  <li key={i} className="mb-2 flex-1">
+                    <div className={className}
+                      onClick={() => {
+                        if (questionStates[data.quiz.question]?.isSubmitted)
+                          return;
+                        const isSelected = checkedAnswers.includes(
+                          answer.content
+                        );
+                        setCheckedAnswers((prevState) =>
+                          isSelected
+                            ? prevState.filter(
+                                (prevAnswer) => prevAnswer !== answer.content
+                              )
+                            : [...prevState, answer.content]
+                        );
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          readOnly
+                          checked={checkedAnswers.includes(answer.content)}
+                          onClick={(event) => event.stopPropagation()}
+                          className="opacity-0 absolute"
+                          aria-hidden="true"
+                        />
+                        {answer.content}
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
             <button
               type="submit"
               disabled={questionStates[data.quiz.question]?.isSubmitted}
               className={`py-2 px-4 ${questionStates[data.quiz.question]?.isSubmitted ? "bg-gray-500" : "bg-teal-700"} text-white rounded-lg shadow hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors w-full mt-4`}
             >
-              {questionStates[data.quiz.question]?.isSubmitted ? "La prochaine question arrive" : "Envoyer"}
+              {questionStates[data.quiz.question]?.isSubmitted
+                ? "La prochaine question arrive"
+                : "Envoyer"}
             </button>
           </form>
         </>
